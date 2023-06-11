@@ -9,6 +9,7 @@ const DaftarKomoditiPeternakan = ({ sektor }) => {
 
     const [tableKomoditiPeternakan, setDaftarKomoditiPeternakan] = useState([]);
     const token = localStorage.getItem("token");
+    const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
         async function fetchKomoditiPeternakan(sektor) {
@@ -33,7 +34,7 @@ const DaftarKomoditiPeternakan = ({ sektor }) => {
     return(
         <div className="container-table2">
             <DataTable
-                columns={getTableKomoditiPeternakan()}
+                columns={getTableKomoditiPeternakan(showPopup, setShowPopup)}
                 data={tableKomoditiPeternakan}
             />
         </div>

@@ -19,6 +19,7 @@ const DataKomoditiArtikel = () => {
     const [sektor, setSektor] = useState("");
     const [dataKontenKomoditi, setDataKontenKomoditi] = useState([]);
     const navigate = useNavigate();
+    const [showPopup, setShowPopup] = useState(false);
 
     const tableStyles = {
       table: {
@@ -78,38 +79,38 @@ const DataKomoditiArtikel = () => {
         case "Pertanian":
           return (
             <div className="konten-komoditi">
-              <DataTable columns={getTableKontenKomoditiPertanian(navigate)} data={dataKontenKomoditi} customStyles={tableStyles}/>
+              <DataTable columns={getTableKontenKomoditiPertanian(navigate, showPopup, setShowPopup)} data={dataKontenKomoditi} customStyles={tableStyles}/>
             </div>
           );
         case "Peternakan":
           return (
             <div className="konten-komoditi">
-              <DataTable columns={getTableKontenKomoditiPeternakan(navigate)} data={dataKontenKomoditi} customStyles={tableStyles}/>
+              <DataTable columns={getTableKontenKomoditiPeternakan(navigate, showPopup, setShowPopup)} data={dataKontenKomoditi} customStyles={tableStyles}/>
             </div>
           );
         case "Perikanan":
           return (
             <div className="konten-komoditi">
-              <DataTable columns={getTableKontenKomoditiPerikanan(navigate)} data={dataKontenKomoditi} customStyles={tableStyles}/>
+              <DataTable columns={getTableKontenKomoditiPerikanan(navigate, showPopup, setShowPopup)} data={dataKontenKomoditi} customStyles={tableStyles}/>
             </div>
           );
         case "Perindustrian":
           return (
             <div className="konten-komoditi">
-              <DataTable columns={getTableKontenKomoditiPerindustrian(navigate)} data={dataKontenKomoditi} customStyles={tableStyles}/>
+              <DataTable columns={getTableKontenKomoditiPerindustrian(navigate, showPopup, setShowPopup)} data={dataKontenKomoditi} customStyles={tableStyles}/>
             </div>
           );
         case "Pariwisata":
           return (
             <div className="konten-komoditi">
-              <DataTable columns={getTableKontenKomoditiPariwisata(navigate)} data={dataKontenKomoditi} customStyles={tableStyles} />
+              <DataTable columns={getTableKontenKomoditiPariwisata(navigate, showPopup, setShowPopup)} data={dataKontenKomoditi} customStyles={tableStyles} />
             </div>
           );
 
           default:
             return (
               <div className="konten-komoditi">
-                <DataTable columns={getTableKontenKomoditiPariwisata(navigate)} data={dataKontenKomoditi} customStyles={tableStyles} />
+                <DataTable columns={getTableKontenKomoditiPariwisata(navigate, showPopup, setShowPopup)} data={dataKontenKomoditi} customStyles={tableStyles} />
               </div>
             );
         }

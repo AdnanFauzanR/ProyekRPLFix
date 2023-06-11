@@ -2,10 +2,11 @@ import React, {useState} from "react";
 import { Button } from "../../components";
 import axios from "axios";
 import Komoditi from './../Komoditi';
+import PopupDeleted from "../../components/PopUp/PopupDeleted";
 
 
 
-export function getTablePertanian(navigateToEdit) {
+export function getTablePertanian(navigateToEdit, showPopup, setShowPopup) {
     const deleteHandler = async (id) => {
         const token = localStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -33,6 +34,24 @@ export function getTablePertanian(navigateToEdit) {
     const handleEdit = (row) => {
         const id = row.id;
         navigateToEdit(`/editDataPertanian?id=${id}`);
+    };
+
+    const handleConfirm = (id) => {
+        // Logika ketika tombol "Ya" ditekan
+        deleteHandler(id);
+        console.log("Data telah dihapus.");
+        setShowPopup(false);
+    };
+
+    const handleCancel = () => {
+        // Logika ketika tombol "Tidak" ditekan
+        console.log("Batal menghapus data.");
+        setShowPopup(false);
+    };
+
+    const handleButtonClick = () => {
+        // Logika ketika tombol utama ditekan
+        setShowPopup(true);
     };
       
 
@@ -72,7 +91,14 @@ export function getTablePertanian(navigateToEdit) {
             selector: row => (
                 <div>
                     <Button className="btn-edit"><img src="assets/icon/button/button-edit.svg" onClick={() => handleEdit(row)}/></Button>
-                    <Button className="btn-delete" onClick={() => deleteHandler(row.id)}><img src="assets/icon/button/button-delete.svg"/></Button>
+                    <Button className="btn-delete" onClick={handleButtonClick}><img src="assets/icon/button/button-delete.svg"/></Button>
+                    {showPopup && (
+                        <PopupDeleted
+                        message="Apakah Anda yakin menghapus data?"
+                        onConfirm={() => handleConfirm(row.id)}
+                        onCancel={handleCancel}
+                        />
+                    )}
                 </div>
             ),
             sortable: true

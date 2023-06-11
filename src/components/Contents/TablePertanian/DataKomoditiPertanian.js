@@ -9,6 +9,7 @@ import "./DataPertanian.css";
 const DaftarKomoditiPertanian = ({ sektor }) => {
 
   const [tableKomoditiPertanian, setDaftarKomoditiPertanian] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
     const token = localStorage.getItem("token");
 
     useEffect(() => {
@@ -39,7 +40,7 @@ const DaftarKomoditiPertanian = ({ sektor }) => {
   return (
     <div className="container-table2">
       <DataTable
-        columns={TableKomoditiPertanian()}
+        columns={TableKomoditiPertanian(showPopup, setShowPopup)}
         data={tableKomoditiPertanian}
       />
     </div>

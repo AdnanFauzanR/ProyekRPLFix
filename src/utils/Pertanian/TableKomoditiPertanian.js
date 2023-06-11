@@ -4,7 +4,7 @@ import PopupDeleted from "../../components/PopUp/PopupDeleted";
 import axios from "axios";
 
 
-const TableKomoditiPertanian = () => {
+const TableKomoditiPertanian = (showPopup, setShowPopup) => {
 
     const deleteHandler = async (id) => {
         const token = localStorage.getItem('token');
@@ -22,22 +22,22 @@ const TableKomoditiPertanian = () => {
     
     const [showPopupDeleted, setShowPopupDeleted] = useState(false);
 
-    const handleConfirm = () => {
+    const handleConfirm = (id) => {
         // Logika ketika tombol "Ya" ditekan
-        deleteHandler()
+        deleteHandler(id);
         console.log("Data telah dihapus.");
-        setShowPopupDeleted(false);
+        setShowPopup(false);
     };
 
     const handleCancel = () => {
         // Logika ketika tombol "Tidak" ditekan
         console.log("Batal menghapus data.");
-        setShowPopupDeleted(false);
+        setShowPopup(false);
     };
 
     const handleButtonClick = () => {
         // Logika ketika tombol utama ditekan
-        setShowPopupDeleted(true);
+        setShowPopup(true);
     };
 
     return [
@@ -61,11 +61,11 @@ const TableKomoditiPertanian = () => {
             selector: row => (
                 <div>
                     <Button className="btn-delete" onClick={handleButtonClick}><img src="assets/icon/button/button-delete.svg"/></Button>
-                    {showPopupDeleted && (
+                    {showPopup && (
                         <PopupDeleted
-                            message="Apakah Anda yakin menghapus data?"
-                            onConfirm={handleConfirm}
-                            onCancel={handleCancel}
+                        message="Apakah Anda yakin menghapus data?"
+                        onConfirm={() => handleConfirm(row.id)}
+                        onCancel={handleCancel}
                         />
                     )}
                 </div>

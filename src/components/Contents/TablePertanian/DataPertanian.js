@@ -9,6 +9,7 @@ import "./DataPertanian.css";
 const DataPertanian = ({bidang}) => {
 
     const [tablePertanian, setDataPertanian] = useState([]);
+    const [showPopup, setShowPopup] = useState(false);
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ const DataPertanian = ({bidang}) => {
     return(
         <div className="container-table">
             <DataTable
-                columns={getTablePertanian(navigate)}
+                columns={getTablePertanian(navigate, showPopup, setShowPopup)}
                 data={tablePertanian}
             />
         </div>

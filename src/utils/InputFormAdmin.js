@@ -3,6 +3,7 @@ import { Button } from '../components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toTitleCase from './titleCase';
+import PopupAdd from '../components/PopUp/PopupAdd';
 
 function InputFormAdmin({editData}) {
     const [name, setName] = useState("");
@@ -10,24 +11,13 @@ function InputFormAdmin({editData}) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [pass_confirm, setPassConfirm] = useState("");
+    const [showPopupAdd, setShowPopupAdd] = useState(false);
 
     const navigate = useNavigate();
     const [validation, setValidation] = useState([]);
 
-    useEffect(() => {
-        if (editData) {
-            setName(editData.name);
-            setUsername(editData.username);
-            setKecamatan(editData.kecamatan);
-            setPassword(editData.password);
-        }
-    }, [editData])
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(name, kecamatan, username, password);
-
-        const token = localStorage.getItem('token');
+    const handleConfirm = async () => {
+      const token = localStorage.getItem('token');
         const formData = new FormData();
 
         formData.append('name', name);
@@ -59,6 +49,26 @@ function InputFormAdmin({editData}) {
             console.log(error.response.data);
             setValidation(error.response.data);
         }
+      setShowPopupAdd(false);
+    }
+
+    useEffect(() => {
+        if (editData) {
+            setName(editData.name);
+            setUsername(editData.username);
+            setKecamatan(editData.kecamatan);
+        }
+    }, [editData])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setShowPopupAdd(true);    
+    };
+
+    const handleCancel = () => {
+      // Logika ketika tombol "Tidak" ditekan
+      console.log("Batal menambahkan data.");
+      setShowPopupAdd(false);
     };
 
     return (
@@ -115,6 +125,13 @@ function InputFormAdmin({editData}) {
                 <Button className="tambahDataButton">
                 {editData ? 'Ubah Data' : 'Tambah Data'}
                 </Button>
+                {showPopupAdd && (
+                        <PopupAdd
+                            message={editData ? "Apakah Anda yakin mengubah data?" : "Apakah Anda yakin manambah data?"}
+                            onConfirm={handleConfirm}
+                            onCancel={handleCancel}
+                        />
+                    )}
             </div>
         </form>
     );

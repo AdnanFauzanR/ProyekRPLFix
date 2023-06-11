@@ -3,30 +3,15 @@ import { Button } from '../components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toTitleCase from './titleCase.js';
+import PopupAdd from '../components/PopUp/PopupAdd';
 
 function InputFormKontenKomoditi({sektor, komoditi, editData}) {
     const [isi, setIsi] = useState("");
     const [gambar, setGambar] = useState(null);
+    const [showPopupAdd, setShowPopupAdd] = useState(false);
 
-    const handleIsiChange = (event) => {
-        setIsi(event.target.value);
-    };
-
-    const history = useNavigate();
-    const [validation, setValidation] = useState([]);
-
-    useEffect(() => {
-        if (editData) {
-            setIsi(editData.isi);
-        }
-    }, [editData])
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(komoditi, sektor);
-
-        const token = localStorage.getItem('token');
+    const handleConfirm = async () => {
+      const token = localStorage.getItem('token');
         const formData = new FormData();
 
         formData.append('judul', komoditi);
@@ -58,7 +43,32 @@ function InputFormKontenKomoditi({sektor, komoditi, editData}) {
     } catch (error) {
         setValidation(error.response.data.errors);
     }
+      setShowPopupAdd(false);
+    }
 
+    const handleIsiChange = (event) => {
+        setIsi(event.target.value);
+    };
+
+    const history = useNavigate();
+    const [validation, setValidation] = useState([]);
+
+    useEffect(() => {
+        if (editData) {
+            setIsi(editData.isi);
+        }
+    }, [editData])
+
+    const handleCancel = () => {
+      // Logika ketika tombol "Tidak" ditekan
+      console.log("Batal menambahkan data.");
+      setShowPopupAdd(false);
+    };
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setShowPopupAdd(true);
     };
 
     const handleGambarChange = (e) => {
@@ -118,6 +128,13 @@ function InputFormKontenKomoditi({sektor, komoditi, editData}) {
                 <Button className='ButtonTambahBerita' type='submit'>
                 {editData ? 'Ubah Data' : 'Tambah Data'}
                 </Button>
+                {showPopupAdd && (
+                        <PopupAdd
+                            message={editData ? "Apakah Anda yakin mengubah data?" : "Apakah Anda yakin manambah data?"}
+                            onConfirm={handleConfirm}
+                            onCancel={handleCancel}
+                        />
+                    )}
             </div>
         </form>
   );

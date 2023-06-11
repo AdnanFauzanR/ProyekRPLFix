@@ -4,15 +4,15 @@ import { Button } from "../../Button/Button";
 import HasilSaran from "./HasilSaran";
 import "./InputformSaran.css";
 import axios from "axios";
+import PopupAdd from "../../PopUp/PopupAdd";
 
 const InputFormSaran = () => {
   const [saran, setSaran] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [saranData, setSaranData] = useState([]);
+  const [showPopupAdd, setShowPopupAdd] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+  const handleConfirm = async () => {
     const formData = new FormData();
     formData.append('saran', saran);
 
@@ -23,7 +23,18 @@ const InputFormSaran = () => {
       }).catch((error) => {
         console.log(error.response.data);
       })
+    setShowPopupAdd(false);
+  }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setShowPopupAdd(true);
+  };
+
+  const handleCancel = () => {
+    // Logika ketika tombol "Tidak" ditekan
+    console.log("Batal menambahkan data.");
+    setShowPopupAdd(false);
   };
 
   if (submitted) {
@@ -45,6 +56,13 @@ const InputFormSaran = () => {
           <Button className="TambahSaran" type="submit">
             Tambah Saran
           </Button>
+          {showPopupAdd && (
+                        <PopupAdd
+                            message={"Apakah Anda yakin manambah saran?"}
+                            onConfirm={handleConfirm}
+                            onCancel={handleCancel}
+                        />
+                    )}
         </div>
       </Form>
     </div>

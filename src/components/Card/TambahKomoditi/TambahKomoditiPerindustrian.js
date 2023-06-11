@@ -3,6 +3,7 @@ import { Col } from 'react-bootstrap';
 import "./TambahKomoditi.css";
 import axios from 'axios';
 import toTitleCase from './../../../utils/titleCase';
+import PopupAdd from '../../PopUp/PopupAdd';
 
 const TambahKomoditiPerindustrian= ({ sektor }) => {
 
@@ -12,15 +13,14 @@ const TambahKomoditiPerindustrian= ({ sektor }) => {
   const kecamatan = "";
 
   const [popupStyle, showPopup] = useState("hide");
+  const [showPopupAdd, setShowPopupAdd] = useState(false);
 
   const popup = () => {
     showPopup("Tambah-popup");
     setTimeout(() => showPopup("hide"), 3000);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+  const handleConfirm = async () => {
     const token = localStorage.getItem('token');
     const formData = new FormData();
 
@@ -43,6 +43,19 @@ const TambahKomoditiPerindustrian= ({ sektor }) => {
       setValidation(error.response.data);
     }
 
+    setShowPopupAdd(false);
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setShowPopupAdd(true);
+    
+  };
+
+  const handleCancel = () => {
+    // Logika ketika tombol "Tidak" ditekan
+    console.log("Batal menambahkan data.");
+    setShowPopupAdd(false);
   };
 
   return (
@@ -66,6 +79,13 @@ const TambahKomoditiPerindustrian= ({ sektor }) => {
         <div className="tambah-btn" onClick={handleSubmit}>
           Simpan
         </div>
+        {showPopupAdd && (
+                        <PopupAdd
+                            message={"Apakah Anda yakin manambah data?"}
+                            onConfirm={handleConfirm}
+                            onCancel={handleCancel}
+                        />
+                    )}
       </div>
     </Col>
   );

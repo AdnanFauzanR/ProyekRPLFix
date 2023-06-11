@@ -9,6 +9,7 @@ import axios from 'axios';
 const DataPeternakan = () => {
 
     const [tablePeternakan, setDataPeternakan] = useState([]);
+    const [showPopup, setShowPopup] = useState(false);
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
 
@@ -31,7 +32,7 @@ const DataPeternakan = () => {
     return(
         <div className="container-table">
             <DataTable
-                columns={getTablePeternakan(navigate)}
+                columns={getTablePeternakan(navigate, showPopup, setShowPopup)}
                 data={tablePeternakan}
             />
         </div>

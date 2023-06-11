@@ -3,6 +3,7 @@ import { Col } from 'react-bootstrap';
 import "./TambahKomoditi.css";
 import toTitleCase from './../../../utils/titleCase';
 import axios from 'axios';
+import PopupAdd from '../../PopUp/PopupAdd';
 
 const TambahKomoditiPariwisata= ({ sektor }) => {
   const [selectedJenisWisata, setSelectedJenisWisata] = useState("");
@@ -10,6 +11,7 @@ const TambahKomoditiPariwisata= ({ sektor }) => {
   const [validation, setValidation] = useState([]);
   const [nama, setNama] = useState("");
   const [listKecamatan, setListKecamatan] = useState([]);
+  const [showPopupAdd, setShowPopupAdd] = useState(false);
   
 
   const handleJenisWisataChange = (event) => {
@@ -27,10 +29,7 @@ const TambahKomoditiPariwisata= ({ sektor }) => {
       setTimeout(()=> showPopup("hide"),3000)
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(selectedJenisWisata, kecamatan);
-
+  const handleConfirm = async () => {
     const token = localStorage.getItem('token');
     const formData = new FormData();
 
@@ -52,7 +51,19 @@ const TambahKomoditiPariwisata= ({ sektor }) => {
     }catch(error) {
       setValidation(error.response.data);
     }
+    setShowPopupAdd(false);
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setShowPopupAdd(true);  
+  }
+
+  const handleCancel = () => {
+    // Logika ketika tombol "Tidak" ditekan
+    console.log("Batal menambahkan data.");
+    setShowPopupAdd(false);
+  };
 
   useEffect(() => {
     async function fetchDataKecamatan() {
@@ -100,6 +111,13 @@ const TambahKomoditiPariwisata= ({ sektor }) => {
     ))}
 </select>
         <div className="tambah-btn" onClick={handleSubmit}>Simpan</div>
+        {showPopupAdd && (
+                        <PopupAdd
+                            message={"Apakah Anda yakin manambah data?"}
+                            onConfirm={handleConfirm}
+                            onCancel={handleCancel}
+                        />
+                    )}
       </div>
     </Col>
   );

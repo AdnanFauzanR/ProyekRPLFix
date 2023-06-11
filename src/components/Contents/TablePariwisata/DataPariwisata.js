@@ -9,6 +9,7 @@ const DataPariwisata = ({jenis_wisata}) => {
 
     const [tableParwisata, setDataPariwisata] = useState([]);
     const navigate = useNavigate();
+    const [showPopup, setShowPopup] = useState(false);
     const token = localStorage.getItem("token");
 
     useEffect(() => {
@@ -49,7 +50,7 @@ const DataPariwisata = ({jenis_wisata}) => {
     return(
         <div className="container-table">
             <DataTable
-                columns={getTablePariwisata(navigate)}
+                columns={getTablePariwisata(navigate, showPopup, setShowPopup)}
                 data={tableParwisata}
             />
         </div>

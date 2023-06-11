@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { Button } from '../components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import PopupAdd from '../components/PopUp/PopupAdd';
 
 function InputFormBanner() {
   const [banner, setSelectedBanner] = useState(null);
   const [validation, setValidation] = useState([]);
+  const [showPopupAdd, setShowPopupAdd] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(banner);
-
+  const handleConfirm = async () => {
     const token = localStorage.getItem('token');
     const formData = new FormData();
     formData.append('banner', banner);
@@ -29,6 +28,18 @@ function InputFormBanner() {
       .catch((error) => {
           setValidation(error.response.data.errors);
       })
+    setShowPopupAdd(false);
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setShowPopupAdd(true); 
+  };
+
+  const handleCancel = () => {
+    // Logika ketika tombol "Tidak" ditekan
+    console.log("Batal menambahkan data.");
+    setShowPopupAdd(false);
   };
 
   const handleBannerChange = (e) => {
@@ -60,6 +71,13 @@ function InputFormBanner() {
         <Button className='ButtonSave' type='submit'>
           Simpan
         </Button>
+        {showPopupAdd && (
+                        <PopupAdd
+                            message={"Apakah Anda yakin manambah data?"}
+                            onConfirm={handleConfirm}
+                            onCancel={handleCancel}
+                        />
+                    )}
       </div>
     </form>
   );

@@ -8,6 +8,7 @@ import "../../../pages/pagesAdminPusat//PageInputKonten/PageDataBerita.css";
 const DataBerita = () => {
   const [tableBerita, setDataBerita] = useState([]);
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     async function fetchDataKontenBerita() {
@@ -27,7 +28,7 @@ const DataBerita = () => {
 
   return (
     <div className="container-table-berita">
-      <DataTable columns={getTableBerita(navigate)} 
+      <DataTable columns={getTableBerita(navigate, showPopup, setShowPopup)} 
       data={tableBerita}
       style={{
         marginLeft: "5px", // Atur jarak kiri

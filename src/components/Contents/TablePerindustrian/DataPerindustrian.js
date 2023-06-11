@@ -8,6 +8,7 @@ import axios from "axios";
 const DataPerindustrian = () => {
 
     const [tablePerindustrian, setDataPerindustrian] = useState([]);
+    const [showPopup, setShowPopup] = useState(false);
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
@@ -30,7 +31,7 @@ const DataPerindustrian = () => {
     return(
         <div className="container-table">
             <DataTable
-                columns={getTablePerindustrian(navigate)}
+                columns={getTablePerindustrian(navigate, showPopup, setShowPopup)}
                 data={tablePerindustrian}
             />
         </div>

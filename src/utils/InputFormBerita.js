@@ -3,11 +3,13 @@ import { Button } from '../components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toTitleCase from './titleCase.js';
+import PopupAdd from '../components/PopUp/PopupAdd';
 
 function InputFormBerita({sektor, kecamatan, editData}) {
     const [judul, setJudul] = useState("");
     const [isi, setIsi] = useState("");
     const [gambar, setGambar] = useState(null);
+    const [showPopupAdd, setShowPopupAdd] = useState(false);
 
     const handleIsiChange = (event) => {
         setIsi(event.target.value);
@@ -25,9 +27,20 @@ function InputFormBerita({sektor, kecamatan, editData}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(judul, sektor, kecamatan, gambar, isi);
+        setShowPopupAdd(true);  
+    };
 
-        const token = localStorage.getItem('token');
+    const handleGambarChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+        setGambar(file);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleConfirm = async () => {
+      const token = localStorage.getItem('token');
         const formData = new FormData();
         formData.append('judul', toTitleCase(judul));
         formData.append('sektor', sektor);
@@ -59,15 +72,14 @@ function InputFormBerita({sektor, kecamatan, editData}) {
         } catch (error) {
             setValidation(error.response.data.errors);
         }
-    };
+      console.log("Data telah ditambahkan.");
+      setShowPopupAdd(false);
+    }
 
-    const handleGambarChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-        setGambar(file);
-        };
-        reader.readAsDataURL(file);
+    const handleCancel = () => {
+      // Logika ketika tombol "Tidak" ditekan
+      console.log("Batal menambahkan data.");
+      setShowPopupAdd(false);
     };
 
     return (
@@ -133,6 +145,13 @@ function InputFormBerita({sektor, kecamatan, editData}) {
                 <Button className='ButtonTambahBerita' type='submit'>
                     {editData ? 'Ubah Data' : 'Tambah Data'}
                 </Button>
+                {showPopupAdd && (
+                        <PopupAdd
+                            message={editData ? "Apakah Anda yakin mengubah data?" : "Apakah Anda yakin manambah data?"}
+                            onConfirm={handleConfirm}
+                            onCancel={handleCancel}
+                        />
+                    )}
             </div>
         </form>
   );

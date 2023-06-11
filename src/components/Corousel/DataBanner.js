@@ -7,6 +7,7 @@ import axios from "axios";
 
 const DataBanner = () => {
   const [tableBanner, setDataBanner] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     async function fetchDataKontenBanner() {
@@ -26,7 +27,7 @@ const DataBanner = () => {
 
   return (
     <div className="container-table-banner">
-      <DataTable columns={getTableBanner()} 
+      <DataTable columns={getTableBanner(showPopup, setShowPopup)} 
       data={tableBanner} />
     </div>
   );

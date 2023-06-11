@@ -6,9 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import toTitleCase from '../titleCase.js';
 import PopupAdd from '../../components/PopUp/PopupAdd';
 
-   
-
-
 function InputFormPariwisata({jenis_wisata, nama_wisata, editData}) {
     const [showPopupAdd, setShowPopupAdd] = useState(false);
 
