@@ -17,14 +17,9 @@ const Beranda = () => {
     useEffect(() => {
       async function fetchDataKontenBerita() {
         let data;
-        const storedData = localStorage.getItem("dataKontenBerita");
-        if (storedData) {
-          data = JSON.parse(storedData);
-        } else {
-          const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Konten Berita`);
-          data = response.data;
-        }
-          setDataBerita(data);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Konten Berita`);
+        data = response.data;
+        setDataBerita(data);
       }
       fetchDataKontenBerita();
     }, []);
