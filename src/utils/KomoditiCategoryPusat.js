@@ -13,19 +13,22 @@ const KomoditiCategoryPusat = () => {
         const fetchKategoriKomoditi = async (token) => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/CountSektor`);
-            const resData = response?.data; 
-            setKategoriKomoditiPusat(resData);
+            setKategoriKomoditiPusat(response?.data);
         }
-        fetchKategoriKomoditi(token);
-        console.log(kategoriKomoditi);
-        for (let i=0; i < kategoriKomoditiPusat.length; i++) {
-                for (let j=0; j < kategoriKomoditiPusat.length; j++) {
-                    if (kategoriKomoditiPusat[i].name === kategoriKomoditi[j]?.sektor) {
-                        kategoriKomoditiPusat[i].count = kategoriKomoditi[j]?.count
-                    }
-                }
-            }   
+        fetchKategoriKomoditi(token); 
     }, []);
+
+    for (let i=0; i < kategoriKomoditiPusat.length; i++) {
+        for (let j=0; j < kategoriKomoditiPusat.length; j++) {
+            if (kategoriKomoditiPusat[i].name === kategoriKomoditi[j]?.sektor) {
+                kategoriKomoditiPusat[i].count = kategoriKomoditi[j]?.count
+            }
+        }
+    }   
+
+    const handle = () => {
+        console.log(kategoriKomoditiPusat);
+    }
     return (
         <div style={
             {
@@ -36,11 +39,13 @@ const KomoditiCategoryPusat = () => {
             }
         }>
             {
-                kategoriKomoditiPusat && kategoriKomoditiPusat.map(item => {
-                    return (
-                     <CardKomoditiCategoryPusat key={item.id} komoditi={item}/>
-                    ) 
-                 })
+                kategoriKomoditiPusat?.map(item => (
+                        <div>
+                            <CardKomoditiCategoryPusat key={item.sektor} komoditi={item}/>
+                        </div>
+                    )
+                        
+                )
             }
         </div>
     )

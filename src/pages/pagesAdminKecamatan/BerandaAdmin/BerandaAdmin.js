@@ -8,15 +8,13 @@ import KomoditiCategory from "../../../utils/KomoditiCategory";
 // import './BerandaAdmin.css';
 import checkTokenExpiration from './../../../utils/checkTokenExpiration';
 import CarouselNew from "../../../components/Corousel/CarouselBeranda/CarouselNew";
-import kategori_komoditi from "../../../config/KomoditiCategory/kategori_Komoditi.json";
+
 
 const BerandaAdmin = () => {
     const [user, setUser] = useState([]);
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
-    const [kategoriKomoditi, setKategoriKomoditi] = useState([]);
     const [banner, setBanner] = useState([]);
-    
     const fetchData = async () => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         await axios.get(`${process.env.REACT_APP_API_URL}/api/adminkecamatan`)
@@ -27,18 +25,7 @@ const BerandaAdmin = () => {
         })
     }
 
-    const fetchKategoriKomoditi = async () => {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/CountSektor`)
-        setKategoriKomoditi(response.data);
-        for (let i=0; i < kategoriKomoditi.length; i++) {
-            for (let j=0; j < kategoriKomoditi.length; j++) {
-                if (kategori_komoditi[i].name === kategoriKomoditi[j].sektor) {
-                    kategori_komoditi[i].count = kategoriKomoditi[j].count
-                }
-            }
-        }
-    }
+    
 
     async function fetchBanner() {
         try{
@@ -51,7 +38,6 @@ const BerandaAdmin = () => {
 
     useEffect(() => {
         fetchBanner();
-        fetchKategoriKomoditi();
     }, [])
 
     useEffect(() => {
@@ -93,7 +79,7 @@ const BerandaAdmin = () => {
                 <div><h3>Beranda</h3></div>
                 <div className="isi_content">
                     <CarouselNew banner={banner}/>
-                    <KomoditiCategory sektor={kategori_komoditi}/>
+                    <KomoditiCategory />
                 </div>
             </div>
         {/* <div className='footer'>footer</div> */}

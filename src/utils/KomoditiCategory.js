@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import CardKomoditiCategory from "../components/Card/KomoditiCategory/CardKomoditiCategory.js";
+import kategori_komoditi from "../config/KomoditiCategory/kategori_Komoditi.json";
 
-const KomoditiCategory = ({sektor}) => {
-    let i = 0;
+const KomoditiCategory = () => {
+    const [kategoriKomoditi, setKategoriKomoditi] = useState([]);
+    const token = localStorage.getItem('token');
+    
+
+    useEffect(() => {
+        const fetchKategoriKomoditi = async () => {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/CountSektor`)
+            setKategoriKomoditi(response.data);
+        }
+        fetchKategoriKomoditi()
+    }, [])
+
+    for (let i=0; i < kategoriKomoditi.length; i++) {
+        for (let j=0; j < kategoriKomoditi.length; j++) {
+            if (kategori_komoditi[i].name === kategoriKomoditi[j]?.sektor) {
+                kategori_komoditi[i].count = kategoriKomoditi[j]?.count
+            }
+        }
+    }
+
     return (
         <div style={
             {
@@ -13,12 +35,11 @@ const KomoditiCategory = ({sektor}) => {
             }
         }>
             {
-                sektor && sektor.map(item => {
-                    i += 1
-                    return (
-                     <CardKomoditiCategory key={item.id} sektor={item} image={item.image} url={item.url}/>
+                kategori_komoditi?.map(item => (
+                    (
+                     <CardKomoditiCategory key={item.id} sektor={item}/>
                     ) 
-                 })
+                ))
             }
         </div>
     )
