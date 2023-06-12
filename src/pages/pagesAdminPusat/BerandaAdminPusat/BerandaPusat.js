@@ -40,21 +40,18 @@ const BerandaPusat = () => {
     //     }
     // }
 
+    
+    
     useEffect(() => {
         async function fetchBanner() {
-          try{
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Konten Banner`);
-            setBanner(response?.data);
-          } catch(err){
+            try{
+              const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Konten Banner`);
+              setBanner(response?.data);
+            } catch(err){
+            }
           }
-        }
-  
-        fetchBanner()
-      }, []);
-
-    // useEffect(() => {
-    //     fetchKategoriKomoditi()
-    // }, []);
+        fetchBanner();
+    }, [])
 
     useEffect(() => {
         if(!token) {
@@ -71,6 +68,8 @@ const BerandaPusat = () => {
             navigate('/login');
         }
     });
+
+    
 
     return (
         <div className='container'>

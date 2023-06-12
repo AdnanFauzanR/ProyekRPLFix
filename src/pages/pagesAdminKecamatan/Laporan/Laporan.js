@@ -46,31 +46,31 @@ const Laporan = () => {
           case "Pertanian":
             return (
               <>
-                <DataBerandaPertanian tahun={selectedTahun} />
+                <DataBerandaPertanian sektor={Sektor} />
               </>
             );
           case "Peternakan":
             return (
               <>
-                <DataBerandaPeternakan tahun={selectedTahun}  />
+                <DataBerandaPeternakan sektor={Sektor} />
               </>
             );
           case "Perikanan":
             return (
               <>
-                <DataBerandaPerikanan tahun={selectedTahun}  />
+                <DataBerandaPerikanan sektor={Sektor} />
               </>
             );
           case "Perindustrian":
             return (
               <>
-                <DataBerandaPerindustrian tahun={selectedTahun}  />
+                <DataBerandaPerindustrian sektor={Sektor} />
               </>
             );
           case "Pariwisata":
             return (
               <>
-                <DataBerandaPariwisata tahun={selectedTahun}  />
+                <DataBerandaPariwisata sektor={Sektor} />
               </>
             );
           default:

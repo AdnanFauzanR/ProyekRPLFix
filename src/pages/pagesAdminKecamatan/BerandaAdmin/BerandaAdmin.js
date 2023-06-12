@@ -27,32 +27,32 @@ const BerandaAdmin = () => {
         })
     }
 
-    
-
-    useEffect(() => {
-        const fetchKategoriKomoditi = async () => {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/CountSektor`)
-            setKategoriKomoditi(response.data);
-            for (let i=0; i < kategoriKomoditi.length; i++) {
-                for (let j=0; j < kategoriKomoditi.length; j++) {
-                    if (kategori_komoditi[i].name === kategoriKomoditi[j].sektor) {
-                        kategori_komoditi[i].count = kategoriKomoditi[j].count
-                    }
+    const fetchKategoriKomoditi = async () => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/CountSektor`)
+        setKategoriKomoditi(response.data);
+        for (let i=0; i < kategoriKomoditi.length; i++) {
+            for (let j=0; j < kategoriKomoditi.length; j++) {
+                if (kategori_komoditi[i].name === kategoriKomoditi[j].sektor) {
+                    kategori_komoditi[i].count = kategoriKomoditi[j].count
                 }
             }
         }
-        async function fetchBanner() {
-          try{
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Konten Banner`);
-            setBanner(response.data);
-          } catch(err){
-          }
+    }
+
+    async function fetchBanner() {
+        try{
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/Konten Banner`);
+          setBanner(response?.data);
+        } catch(err){
+            console.log(err.message);
         }
-  
-        fetchBanner()
-        fetchKategoriKomoditi()
-      }, []);
+    }
+
+    useEffect(() => {
+        fetchBanner();
+        fetchKategoriKomoditi();
+    }, [])
 
     useEffect(() => {
         if(!token) {
@@ -69,6 +69,10 @@ const BerandaAdmin = () => {
             navigate('/login');
         }
     });
+
+    
+    
+
     return (
         <div className='container'>
             <div className='logo'>
