@@ -12,7 +12,7 @@ export default function CardGrafik({ data, title, xLabel, yLabel }) {
         chartInstanceRef.current.destroy();
       }
 
-      const labels = data.map(item => item.kecamatan);
+      const labels = data.map(item => item.nama);
       const datasets = [{
         label: title,
         data: data.map(item => item.value), // Menggunakan properti 'value' yang umum

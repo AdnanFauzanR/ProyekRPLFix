@@ -50,7 +50,8 @@ const KomoditiArtikel = ({ id, sektor, komoditi }) => {
   } else if (sektor === "Pariwisata") {
     grafikKomoditi = <GrafikKomoditiPariwisata dataPariwisata={dataKomoditi}/>;
   }
-
+  
+  console.log(dataKomoditi);
 
   return (
     <div className="container-komoditi">
